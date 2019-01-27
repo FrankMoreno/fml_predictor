@@ -5,31 +5,49 @@ class MovieTable extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            movies: {}
+            movies: []
         }
     }
     
     componentDidMount() {
         // TODO Add error handling 
-        fetch('https://thanx-fml-api.herokuapp.com/')
+        fetch('https://thanx-fml-api.herokuapp.com/movies')
             .then(res => res.json())
             .then(result => {
                 this.setState({
-                    movies: result.Status,
+                    movies: result.movies,
                     isLoaded: true
                 })
             }) 
     }
 
     render() {
+        const listItems = this.state.movies.map((movie) =>
+            <tr key={movie.name}>
+                <td>{movie.name}</td>
+                <td>{movie.bux}</td>
+                <td>
+                    <textarea/>
+                </td>
+                <td></td>
+            </tr>
+        );
         if(this.state.isLoaded === false) {
             return <h1>Loading...</h1>
         }
         else {
             return (
                 <div>
-                    <h1> Movie Table </h1>
-                    <h3>{this.state.movies}</h3>
+                    <h1> FML Calculator </h1>
+                    <table>
+                        <tr>
+                            <td>Title</td>
+                            <td>Bux</td>
+                            <td>Estimate</td>
+                            <td>Screens</td>
+                        </tr>
+                        {listItems}
+                    </table>
                 </div>
             );
         }

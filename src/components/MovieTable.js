@@ -7,6 +7,7 @@ class MovieTable extends Component {
             isLoaded: false,
             movies: {}
         }
+        this.solveForScreens = this.solveForScreens.bind(this);
     }
     
     componentDidMount() {
@@ -17,9 +18,9 @@ class MovieTable extends Component {
                 let newMovies = {}
                 result.movies.forEach(movie => {
                     newMovies[movie.name] = {
-                        "bux" : movie.bux,
+                        "bux" : (movie.bux).replace(/\$/g,''),
                         "estimate" : "",
-                        "screens":""
+                        "screens":"1"
                     }
                 })
                 this.setState({
@@ -29,7 +30,14 @@ class MovieTable extends Component {
             })
     }
 
+    onEstimateChange(movieName, event) {
+        let newMovies = this.state.movies;
+        newMovies[movieName].estimate = event.target.value;
+        this.setState({movies : newMovies})
+    }
+    
     makeListItems() {
+        // TODO Figure out how to make listItem into it's own component 
         let listItems = []
         for(let movieName in this.state.movies) {
             // TODO Figure out how to not go from array to object to array
@@ -50,10 +58,20 @@ class MovieTable extends Component {
         return listItems;
     }
 
-    onEstimateChange(movieName, event) {
-        let newMovies = this.state.movies;
-        newMovies[movieName].estimate = event.target.value;
-        this.setState({movies : newMovies})
+    solveForScreens() {
+        let solver = require("../../node_modules/javascript-lp-solver/src/solver"),
+        results,
+        model = {
+            "optimize" : "estimate",
+            "opType" : "max",
+            "constraints" : {
+                "bux" : {"max":"1000"},
+                "screens" : {"max" : "8"}
+            },
+            "variables" : this.state.movies
+        };
+        results = solver.Solve(model);
+        console.log(results);
     }
 
     render() {
@@ -75,6 +93,7 @@ class MovieTable extends Component {
                         {this.makeListItems()}
                         </tbody>
                     </table>
+                    <button onClick={this.solveForScreens}>Submit</button>
                 </div>
             );
         }

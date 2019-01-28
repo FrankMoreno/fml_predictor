@@ -32,6 +32,7 @@ class MovieTable extends Component {
     makeListItems() {
         let listItems = []
         for(let movieName in this.state.movies) {
+            // TODO Figure out how to not go from array to object to array
             listItems.push(
                 <tr key={movieName}>
                     <td>{movieName}</td>
@@ -54,7 +55,7 @@ class MovieTable extends Component {
         newMovies[movieName].estimate = event.target.value;
         this.setState({movies : newMovies})
     }
-    
+
     render() {
         if(this.state.isLoaded === false) {
             return <h1>Loading...</h1>

@@ -14,24 +14,29 @@ class MovieTable extends Component {
         fetch('https://thanx-fml-api.herokuapp.com/movies')
             .then(res => res.json())
             .then(result => {
-                this.setState({
-                    movies: result.movies,
-                    isLoaded: true
+                let newMovies = {}
+                result.movies.forEach(movie => {
+                    newMovies[movie.name] = {
+                        "bux" : movie.bux,
+                        "estimate" : "",
+                        "screens":""
+                    }
                 })
-            }) 
+                this.setState({movies : newMovies});
+            })
     }
 
     render() {
-        const listItems = this.state.movies.map((movie) =>
-            <tr key={movie.name}>
-                <td>{movie.name}</td>
-                <td>{movie.bux}</td>
-                <td>
-                    <textarea/>
-                </td>
-                <td></td>
-            </tr>
-        );
+        // const listItems = this.state.movies.map((movie) =>
+        //     <tr key={movie.name}>
+        //         <td>{movie.name}</td>
+        //         <td>{movie.bux}</td>
+        //         <td>
+        //             <textarea/>
+        //         </td>
+        //         <td></td>
+        //     </tr>
+        // );
         if(this.state.isLoaded === false) {
             return <h1>Loading...</h1>
         }
@@ -46,7 +51,7 @@ class MovieTable extends Component {
                             <td>Estimate</td>
                             <td>Screens</td>
                         </tr>
-                        {listItems}
+                        {/* {listItems} */}
                     </table>
                 </div>
             );

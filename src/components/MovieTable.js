@@ -5,7 +5,7 @@ class MovieTable extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            movies: []
+            movies: {}
         }
     }
     
@@ -22,21 +22,40 @@ class MovieTable extends Component {
                         "screens":""
                     }
                 })
-                this.setState({movies : newMovies});
+                this.setState({
+                    movies : newMovies,
+                    isLoaded : true
+                });
             })
     }
 
+    makeListItems() {
+        let listItems = []
+        for(let movieName in this.state.movies) {
+            listItems.push(
+                <tr key={movieName}>
+                    <td>{movieName}</td>
+                    <td>{this.state.movies[movieName].bux}</td>
+                    <td>
+                        <textarea 
+                            value={this.state.movies[movieName].estimate} 
+                            onChange={(event) => this.onEstimateChange(movieName, event)}
+                        />
+                    </td>
+                    <td>{this.state.movies[movieName].screens}</td>
+                </tr>
+            );
+        }
+        return listItems;
+    }
+
+    onEstimateChange(movieName, event) {
+        let newMovies = this.state.movies;
+        newMovies[movieName].estimate = event.target.value;
+        this.setState({movies : newMovies})
+    }
+    
     render() {
-        // const listItems = this.state.movies.map((movie) =>
-        //     <tr key={movie.name}>
-        //         <td>{movie.name}</td>
-        //         <td>{movie.bux}</td>
-        //         <td>
-        //             <textarea/>
-        //         </td>
-        //         <td></td>
-        //     </tr>
-        // );
         if(this.state.isLoaded === false) {
             return <h1>Loading...</h1>
         }
@@ -45,13 +64,15 @@ class MovieTable extends Component {
                 <div>
                     <h1> FML Calculator </h1>
                     <table>
+                        <tbody>
                         <tr>
                             <td>Title</td>
                             <td>Bux</td>
                             <td>Estimate</td>
                             <td>Screens</td>
                         </tr>
-                        {/* {listItems} */}
+                        {this.makeListItems()}
+                        </tbody>
                     </table>
                 </div>
             );

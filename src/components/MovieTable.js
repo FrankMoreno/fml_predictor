@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import MovieResults from './MovieResults';
 
 class MovieTable extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class MovieTable extends Component {
     
     componentDidMount() {
         // TODO Add error handling 
+        // TODO Check what's making this so slow
         fetch('https://thanx-fml-api.herokuapp.com/movies')
             .then(res => res.json())
             .then(result => {
@@ -25,7 +27,8 @@ class MovieTable extends Component {
                 })
                 this.setState({
                     movies : newMovies,
-                    isLoaded : true
+                    isLoaded : true,
+                    results : {}
                 });
             })
     }
@@ -51,7 +54,6 @@ class MovieTable extends Component {
                             onChange={(event) => this.onEstimateChange(movieName, event)}
                         />
                     </td>
-                    <td>{this.state.movies[movieName].screens}</td>
                 </tr>
             );
         }
@@ -60,7 +62,7 @@ class MovieTable extends Component {
 
     solveForScreens() {
         let solver = require("../../node_modules/javascript-lp-solver/src/solver"),
-        results,
+        updatedResults,
         model = {
             "optimize" : "estimate",
             "opType" : "max",
@@ -70,8 +72,8 @@ class MovieTable extends Component {
             },
             "variables" : this.state.movies
         };
-        results = solver.Solve(model);
-        console.log(results);
+        updatedResults = solver.Solve(model);
+        this.setState({results:updatedResults});
     }
 
     render() {
@@ -88,12 +90,12 @@ class MovieTable extends Component {
                             <td>Title</td>
                             <td>Bux</td>
                             <td>Estimate</td>
-                            <td>Screens</td>
                         </tr>
                         {this.makeListItems()}
                         </tbody>
                     </table>
                     <button onClick={this.solveForScreens}>Submit</button>
+                    <MovieResults results={this.state.results}/>
                 </div>
             );
         }

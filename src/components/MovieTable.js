@@ -61,6 +61,7 @@ class MovieTable extends Component {
     }
 
     solveForScreens() {
+        // TODO Replace this library with something better supported
         let solver = require("../../node_modules/javascript-lp-solver/src/solver"),
         updatedResults,
         model = {

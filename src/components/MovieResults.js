@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
 class MovieResults extends Component {
-    // TODO Get this to display properly
     makeResultsTable() {
         let results = []
         for(let key in this.props.results) {
-            if(key != 'feasible' && key != 'bounded') {
+            if(key !== 'feasible' && key !== 'bounded') {
                 results.push(
                     <tr key={key}>
                         <td>{key}</td>

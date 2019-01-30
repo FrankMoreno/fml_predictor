@@ -19,13 +19,11 @@ class MovieResults extends Component {
         return (
             <div>
                 <h1>Results</h1>
-                <div>
-                    <table>
-                        <tbody>
-                            {this.makeResultsTable()}
-                        </tbody>
-                    </table>
-                </div>
+                <table>
+                    <tbody>
+                        {this.makeResultsTable()}
+                    </tbody>
+                </table>
             </div>
         );
     }

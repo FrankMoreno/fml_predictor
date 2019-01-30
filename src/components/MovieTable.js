@@ -77,22 +77,25 @@ class MovieTable extends Component {
         this.setState({results:updatedResults});
     }
 
+    // TODO Pull estimates
     render() {
         if(this.state.isLoaded === false) {
             return <h1>Loading...</h1>
         }
         else {
             return (
-                <div>
+                <div className="MovieTable">
                     <h1> FML Calculator </h1>
                     <table>
+                        <thead>
+                            <tr>
+                                <td>Title</td>
+                                <td>Bux</td>
+                                <td>Estimate</td>
+                            </tr>
+                        </thead>
                         <tbody>
-                        <tr>
-                            <td>Title</td>
-                            <td>Bux</td>
-                            <td>Estimate</td>
-                        </tr>
-                        {this.makeListItems()}
+                            {this.makeListItems()}
                         </tbody>
                     </table>
                     <button onClick={this.solveForScreens}>Submit</button>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import MovieRow from './MovieRow';
 
 class MovieResults extends Component {
     makeResultsTable() {
@@ -6,10 +7,7 @@ class MovieResults extends Component {
         for(let key in this.props.results) {
             if(key !== 'feasible' && key !== 'bounded') {
                 results.push(
-                    <tr key={key}>
-                        <td>{key}</td>
-                        <td>{this.props.results[key]}</td>
-                    </tr>
+                    <MovieRow key={key} name={key} info={this.props.results}/>
                 );
             }
         }

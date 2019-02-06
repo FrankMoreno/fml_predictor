@@ -75,6 +75,7 @@ class MovieTable extends Component {
         };
         updatedResults = solver.Solve(model);
         this.setState({results:updatedResults});
+        console.log(updatedResults);
     }
 
     // TODO Pull estimates

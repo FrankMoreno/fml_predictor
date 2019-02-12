@@ -5,7 +5,7 @@ class MovieResults extends Component {
     makeResultsTable() {
         let results = []
         for(let key in this.props.results) {
-            if(key !== 'feasible' && key !== 'bounded') {
+            if(key !== 'feasible' && key !== 'bounded' && key !== 'result') {
                 results.push(
                     <MovieRow key={key} name={key} info={this.props.results}/>
                 );

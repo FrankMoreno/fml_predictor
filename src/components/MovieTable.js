@@ -9,6 +9,7 @@ class MovieTable extends Component {
             movies: {}
         }
         this.solveForScreens = this.solveForScreens.bind(this);
+        this.getEstimates = this.getEstimates.bind(this);
     }
     
     componentDidMount() {
@@ -75,10 +76,23 @@ class MovieTable extends Component {
         };
         updatedResults = solver.Solve(model);
         this.setState({results:updatedResults});
-        console.log(updatedResults);
     }
 
-    // TODO Pull estimates
+    getEstimates() {
+        fetch('https://thanx-fml-api.herokuapp.com/estimates')
+        .then(res => res.json())
+        .then(result => {
+            result.estimates.forEach(estimate => {
+                let newMovies = this.state.movies;
+                if(this.state.movies.hasOwnProperty(estimate.name)) {
+                    let newEstimate = estimate.estimate.replace(/\$/g,'')
+                    newMovies[estimate.name].estimate = parseFloat(newEstimate);
+                }
+                this.setState({movies : newMovies});
+            })
+        })
+    }
+
     render() {
         if(this.state.isLoaded === false) {
             return <h1>Loading...</h1>
@@ -100,6 +114,7 @@ class MovieTable extends Component {
                         </tbody>
                     </table>
                     <button onClick={this.solveForScreens}>Submit</button>
+                    <button onClick={this.getEstimates}>Get Estimates</button>
                     <MovieResults results={this.state.results}/>
                 </div>
             );

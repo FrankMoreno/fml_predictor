@@ -8,7 +8,7 @@ class MovieRow extends Component {
         return (
             // TODO Fix the estimate to truncate 
             <tr key={name}>
-                <td>{name}</td>
+                <td>{name.toUpperCase()}</td>
                 <td>{Math.trunc(totalFilms[name])}</td>
             </tr>
         );

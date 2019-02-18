@@ -17,6 +17,9 @@ button {
   margin: 0.3em;
 }
 
+#estimatesCheckbox {
+  display: inline;
+}
 .MovieTable td {
   padding: 0.3em;
 }

@@ -21,7 +21,7 @@ function MovieRows(props) {
         for(let key in props.results) {
             if(key !== 'feasible' && key !== 'bounded' && key !== 'result') {
                 results.push(
-                    <MovieRow key={key} name={key} info={props.results}/>
+                    <MovieRow key={key} name={key} total={props.results[key]}/>
                 );
             }
         }

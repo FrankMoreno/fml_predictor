@@ -23,17 +23,18 @@ class MovieTable extends Component {
                     let newMovies = {}
                     result.movies.forEach(movie => {
                         newMovies[movie.name] = {
-                            "bux": (movie.bux).replace(/\$/g, ''),
-                            "posterLink": movie.posterLink,
-                            "estimate": "",
-                            "screens": "1"
+                            bux: (movie.bux).replace(/\$/g, ''),
+                            posterLink: movie.posterLink,
+                            estimate: "",
+                            screens: "1",
+                            ratio : -1
                         }
                     });
 
                     this.setState({
                         movies: newMovies,
                         isLoaded: true,
-                        results: {},
+                        results: {}
                     });
                 },
                 error => {
@@ -45,6 +46,7 @@ class MovieTable extends Component {
     onEstimateChange(movieName, event) {
         let newMovies = this.state.movies;
         newMovies[movieName].estimate = event.target.value;
+        newMovies[movieName].ratio = (event.target.value)/(newMovies[movieName].bux);
         this.setState({ movies: newMovies })
     }
 
@@ -58,6 +60,7 @@ class MovieTable extends Component {
                         if (this.state.movies.hasOwnProperty(estimate.name)) {
                             let newEstimate = estimate.estimate.replace(/\$/g, '')
                             newMovies[estimate.name].estimate = parseFloat(newEstimate);
+                            newMovies[estimate.name].ratio = (newMovies[estimate.name].estimate)/(newMovies[estimate.name].bux); 
                         }
                         this.setState({ movies: newMovies });
                     });

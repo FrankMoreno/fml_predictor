@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 
 class MovieRow extends Component {
     render() {
-        let name = this.props.name;
-        let totalFilms = this.props.info;
+        let {name, total} = this.props;
 
         return (
             // TODO Fix the estimate to truncate 
             <tr key={name}>
                 <td>{name.toUpperCase()}</td>
-                <td>{Math.trunc(totalFilms[name])}</td>
+                <td>{Math.round(total)}</td>
             </tr>
         );
     }

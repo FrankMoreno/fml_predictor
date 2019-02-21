@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import MovieResults from './MovieResults';
+import MovieResultsTable from './MovieResultsTable';
 
 class MovieTable extends Component {
     constructor(props) {
@@ -144,7 +144,7 @@ class MovieTable extends Component {
                         <input id="includeBonuses" type="checkbox" onClick={this.toggleBonuses}/>    
                         <span>Include bonuses?</span>
                     </div>
-                    <MovieResults results={this.state.results} />
+                    <MovieResultsTable results={this.state.results} />
                 </div>
             );
         }

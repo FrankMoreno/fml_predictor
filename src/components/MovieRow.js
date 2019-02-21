@@ -4,8 +4,7 @@ class MovieRow extends Component {
     render() {
         let {name, total} = this.props;
 
-        return (
-            // TODO Fix the estimate to truncate 
+        return ( 
             <tr key={name}>
                 <td>{name.toUpperCase()}</td>
                 <td>{Math.round(total)}</td>

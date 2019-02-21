@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import MovieRow from './MovieRow';
 
-class MovieResults extends Component {
+class MovieResultsTable extends Component {
     render() {
         return (
             <div>
@@ -28,4 +28,4 @@ function MovieRows(props) {
         return results;
 }
 
-export default MovieResults;
+export default MovieResultsTable;

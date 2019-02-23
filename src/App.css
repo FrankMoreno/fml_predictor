@@ -28,3 +28,12 @@ button {
   width: 3em;
   height: 4.5em;
 }
+
+table {
+  border-collapse: collapse;
+}
+td, th, table {
+  border: #ffffff;
+  border-style: solid;
+  border-width: 0.1em;
+}

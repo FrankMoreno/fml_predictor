@@ -7,11 +7,17 @@ class MovieTable extends Component {
         this.state = {
             isLoaded: false,
             movies: {},
-            includeBonuses: false
+            includeBonuses: false,
+            results: {},
+            bestPerformer: {
+                name: "",
+                amount: -1
+            }
         }
         this.solveForScreens = this.solveForScreens.bind(this);
         this.getEstimates = this.getEstimates.bind(this);
         this.toggleBonuses = this.toggleBonuses.bind(this);
+        this.getNewRatio = this.getNewRatio.bind(this);
     }
 
     componentDidMount() {
@@ -34,7 +40,6 @@ class MovieTable extends Component {
                     this.setState({
                         movies: newMovies,
                         isLoaded: true,
-                        results: {}
                     });
                 },
                 error => {
@@ -43,31 +48,49 @@ class MovieTable extends Component {
                 })
     }
 
-    onEstimateChange(movieName, event) {
-        let newMovies = this.state.movies;
-        newMovies[movieName].estimate = event.target.value;
-        newMovies[movieName].ratio = (event.target.value)/(newMovies[movieName].bux);
-        this.setState({ movies: newMovies })
-    }
-
     getEstimates() {
         fetch('https://thanx-fml-api.herokuapp.com/estimates')
             .then(res => res.json())
             .then(
                 result => {
+                    let newMovies = this.state.movies;
+                    let newBestPerformer = {name:"", amount:-1};
+
                     result.estimates.forEach(estimate => {
-                        let newMovies = this.state.movies;
                         if (this.state.movies.hasOwnProperty(estimate.name)) {
                             let newEstimate = estimate.estimate.replace(/\$/g, '')
                             newMovies[estimate.name].estimate = parseFloat(newEstimate);
                             newMovies[estimate.name].ratio = (newMovies[estimate.name].estimate)/(newMovies[estimate.name].bux); 
+                            if(newMovies[estimate.name].ratio > newBestPerformer.amount) {
+                                newBestPerformer.name = estimate.name;
+                                newBestPerformer.amount = newMovies[estimate.name].ratio;
+                            }
                         }
-                        this.setState({ movies: newMovies });
                     });
+                    this.setState({ movies: newMovies, bestPerformer: newBestPerformer });
                 },
                 error => {
                     console.log(error);
                 });
+    }
+
+    onEstimateChange(movieName, event) {
+        let newMovies = this.state.movies;
+        newMovies[movieName].estimate = event.target.value;
+        this.setState({ movies: newMovies })
+    }
+
+    getNewRatio(movieName, event) {
+        let newMovies = this.state.movies;
+        newMovies[movieName].ratio = (event.target.value)/(newMovies[movieName].bux);
+        if(newMovies[movieName].ratio > this.state.bestPerformer.amount) {
+            let newBestPerformer = {
+                name: movieName,
+                amount: newMovies[movieName].ratio
+            };
+            this.setState({ bestPerformer: newBestPerformer })
+        }
+        this.setState({ movies: newMovies });
     }
 
     toggleBonuses() {
@@ -78,6 +101,12 @@ class MovieTable extends Component {
 
     solveForScreens() {
         // TODO Look into other Linear Programming libraries
+        let movies = this.state.movies;
+        console.log( movies[this.state.bestPerformer.name]);
+        if(this.state.includeBonuses) {
+            movies[this.state.bestPerformer.name].estimate += 2;
+        }
+        console.log( movies[this.state.bestPerformer.name]);
         let solver = require("../../node_modules/javascript-lp-solver/src/solver"),
             updatedResults,
             model = {
@@ -87,7 +116,7 @@ class MovieTable extends Component {
                     "bux": { "max": "1000" },
                     "screens": { "max": "8" },
                 },
-                "variables": this.state.movies
+                "variables": movies
             };
         updatedResults = solver.Solve(model);
         this.setState({ results: updatedResults });
@@ -109,6 +138,7 @@ class MovieTable extends Component {
                         <input type="text"
                             value={this.state.movies[movieName].estimate}
                             onChange={(event) => this.onEstimateChange(movieName, event)}
+                            onBlur={(event) => this.getNewRatio(movieName, event)}
                         />
                     </td>
                 </tr>
@@ -141,8 +171,8 @@ class MovieTable extends Component {
                     <button onClick={this.solveForScreens}>Submit</button>
                     <button onClick={this.getEstimates}>Get Estimates</button>
                     <div id="estimatesCheckbox">
-                        <input id="includeBonuses" type="checkbox" onClick={this.toggleBonuses}/>    
-                        <span>Include bonuses?</span>
+                        <input id="includeBonuses" type="checkbox" onClick={this.toggleBonuses}/>
+                        Include bonuses?
                     </div>
                     <MovieResultsTable results={this.state.results} />
                 </div>

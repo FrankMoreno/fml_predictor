@@ -20,6 +20,11 @@ button {
 #estimatesCheckbox {
   display: inline;
 }
+
+#loginForm p {
+  display: block;
+}
+
 .MovieTable td {
   padding: 0.3em;
 }

@@ -74,21 +74,21 @@ class MovieTable extends Component {
                 });
     }
 
-    onEstimateChange(movieName, event) {
+    onEstimateChange(event) {
         // This creates a reference copy, do NOT want this
         let newMovies = JSON.parse(JSON.stringify(this.state.movies));
-        newMovies[movieName].estimate = event.target.value;
+        newMovies[event.target.name].estimate = event.target.value;
         this.setState({ movies: newMovies })
     }
 
-    getNewRatio(movieName, event) {
+    getNewRatio(event) {
         // This creates a reference copy, do NOT want this
         let newMovies = JSON.parse(JSON.stringify(this.state.movies));
-        newMovies[movieName].ratio = (event.target.value)/(newMovies[movieName].bux);
-        if(newMovies[movieName].ratio > this.state.bestPerformer.amount) {
+        newMovies[event.target.name].ratio = (event.target.value)/(newMovies[event.target.name].bux);
+        if(newMovies[event.target.name].ratio > this.state.bestPerformer.amount) {
             let newBestPerformer = {
-                name: movieName,
-                amount: newMovies[movieName].ratio
+                name: event.target.name,
+                amount: newMovies[event.target.name].ratio
             };
             this.setState({ bestPerformer: newBestPerformer })
         }
@@ -137,9 +137,10 @@ class MovieTable extends Component {
                     <td>{this.state.movies[movieName].bux}</td>
                     <td>
                         <input type="text"
+                            name={movieName}
                             value={this.state.movies[movieName].estimate}
-                            onChange={(event) => this.onEstimateChange(movieName, event)}
-                            onBlur={(event) => this.getNewRatio(movieName, event)}
+                            onChange={this.onEstimateChange}
+                            onBlur={this.getNewRatio}
                         />
                     </td>
                 </tr>

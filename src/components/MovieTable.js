@@ -104,11 +104,10 @@ class MovieTable extends Component {
     solveForScreens() {
         // TODO Look into other Linear Programming libraries
         let movies = JSON.parse(JSON.stringify(this.state.movies));
-        console.log( movies[this.state.bestPerformer.name]);
         if(this.state.includeBonuses) {
             movies[this.state.bestPerformer.name].estimate += 2;
         }
-        console.log( movies[this.state.bestPerformer.name]);
+
         let solver = require("../../node_modules/javascript-lp-solver/src/solver"),
             updatedResults,
             model = {

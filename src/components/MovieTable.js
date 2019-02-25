@@ -53,8 +53,7 @@ class MovieTable extends Component {
             .then(res => res.json())
             .then(
                 result => {
-                    // This creates a reference copy, do NOT want this
-                    let newMovies = this.state.movies;
+                    let newMovies = JSON.parse(JSON.stringify(this.state.movies));
                     let newBestPerformer = {name:"", amount:-1};
 
                     result.estimates.forEach(estimate => {
@@ -77,14 +76,14 @@ class MovieTable extends Component {
 
     onEstimateChange(movieName, event) {
         // This creates a reference copy, do NOT want this
-        let newMovies = this.state.movies;
+        let newMovies = JSON.parse(JSON.stringify(this.state.movies));
         newMovies[movieName].estimate = event.target.value;
         this.setState({ movies: newMovies })
     }
 
     getNewRatio(movieName, event) {
         // This creates a reference copy, do NOT want this
-        let newMovies = this.state.movies;
+        let newMovies = JSON.parse(JSON.stringify(this.state.movies));
         newMovies[movieName].ratio = (event.target.value)/(newMovies[movieName].bux);
         if(newMovies[movieName].ratio > this.state.bestPerformer.amount) {
             let newBestPerformer = {
@@ -104,7 +103,7 @@ class MovieTable extends Component {
 
     solveForScreens() {
         // TODO Look into other Linear Programming libraries
-        let movies = this.state.movies;
+        let movies = JSON.parse(JSON.stringify(this.state.movies));
         console.log( movies[this.state.bestPerformer.name]);
         if(this.state.includeBonuses) {
             movies[this.state.bestPerformer.name].estimate += 2;

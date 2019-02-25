@@ -5,9 +5,29 @@ class Login extends Component {
         super(props);
         this.state = {
             login:"",
-            passwor:""
+            password:""
         };
+
+        this.onInputChange = this.onInputChange.bind(this);
+        this.submitLoginInfo = this.submitLoginInfo.bind(this);
     }
+
+    onInputChange(event) {
+        const target = event.target.name;
+        const value = event.target.value;
+
+        this.setState({[target] : value});
+    }
+
+    submitLoginInfo() {
+        // https://thanx-fml-api.herokuapp.com/login
+        fetch('https://thanx-fml-api.herokuapp.com/login', {
+            method: 'POST',
+            body: JSON.stringify(this.state)
+        }).then(res => res.json())
+        .then(result => console.log(result));
+    }
+
     render() {
         return (
             <div>
@@ -15,12 +35,13 @@ class Login extends Component {
                 <form id="loginForm">
                     <p>
                         <label>Login:</label> 
-                        <input type="text" placeholder="example@test.com"/>
+                        <input name="login" type="text" placeholder="example@test.com" onChange={this.onInputChange}/>
                     </p>
                     <p>
                         <label>Password:</label>
-                        <input type="text" placeholder="password"/>
+                        <input name="password" type="text" placeholder="password" onChange={this.onInputChange}/>
                     </p>
+                    <button onClick={this.submitLoginInfo}>Login</button>
                 </form>
             </div>
         )

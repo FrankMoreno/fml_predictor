@@ -19,8 +19,8 @@ class Login extends Component {
         this.setState({[target] : value});
     }
 
-    submitLoginInfo() {
-        // https://thanx-fml-api.herokuapp.com/login
+    submitLoginInfo(event) {
+        event.preventDefault();
         fetch('https://thanx-fml-api.herokuapp.com/login', {
             method: 'POST',
             body: JSON.stringify(this.state)
@@ -39,7 +39,7 @@ class Login extends Component {
                     </p>
                     <p>
                         <label>Password:</label>
-                        <input name="password" type="text" placeholder="password" onChange={this.onInputChange}/>
+                        <input name="password" type="password" placeholder="password" onChange={this.onInputChange}/>
                     </p>
                     <button onClick={this.submitLoginInfo}>Login</button>
                 </form>

@@ -27,14 +27,7 @@ class Login extends Component {
             body: JSON.stringify(this.state),
             credentials: 'include',
             mode: 'no-cors'
-        }).then(res => res.json())
-            .then(
-                result => {
-                    console.log(result)
-                },
-                error => {
-                    console.log("Fail");
-                });
+        });
     }
 
     render() {

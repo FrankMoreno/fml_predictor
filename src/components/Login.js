@@ -20,6 +20,7 @@ class Login extends Component {
     }
 
     submitLoginInfo(event) {
+        // TODO Figure out if I really need cors here or not 
         event.preventDefault();
 
         fetch('https://thanx-fml-api.herokuapp.com/login', {

@@ -7,11 +7,12 @@ import MovieTable from './MovieTable'
 function EverythingElse(props) {
   return (
     <div>
-    <h1>You did it!</h1>
-    <Switch>
-      <Redirect from='/app' to='/app/movies'/>
-      <Route path='/app/movies' component={MovieTable}/>
-    </Switch>
+      <Switch>
+        <Route exact path = '/app'
+          render={() => <Redirect to='/app/movies'/>}
+        />
+        <Route path='/app/movies' component={MovieTable}/>
+      </Switch>
     </div>
   );
 }

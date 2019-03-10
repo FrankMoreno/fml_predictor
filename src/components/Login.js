@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import '../css/Login.css'
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            login:"",
+            email:"",
             password:""
         };
 
@@ -23,28 +24,44 @@ class Login extends Component {
         // TODO Figure out if I really need cors here or not 
         event.preventDefault();
 
+        let formData = new FormData();
+        formData.append('email', this.state.email);
+        formData.append('password', this.state.password);
+
         fetch('https://thanx-fml-api.herokuapp.com/login', {
             method: 'POST',
-            body: JSON.stringify(this.state),
-            credentials: 'include',
-            mode: 'no-cors'
-        });
+            body: formData
+        })
+        .then(res => res.json())
+        .then(
+            result => {
+                let authToken = result.authToken;
+                if(authToken !== '{}') {
+                    this.props.onLogin(authToken);
+                    // Reroute
+                }
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
 
     render() {
+        // TODO Add logic to show authentification failed
         return (
-            <div>
+            <div id="loginFormContainer">
                 <h1>Frank's Movie League</h1>
-                <form id="loginForm">
+                <form id="loginForm" onSubmit={this.submitLoginInfo}>
                     <p>
-                        <label>Login:</label> 
-                        <input name="login" type="text" placeholder="example@test.com" onChange={this.onInputChange}/>
+                        <label htmlFor="email">Login: </label> 
+                        <input id="email" name="email" type="text" placeholder="example@test.com" onChange={this.onInputChange}/>
                     </p>
                     <p>
-                        <label>Password:</label>
-                        <input name="password" type="password" placeholder="password" onChange={this.onInputChange}/>
+                        <label htmlFor="password">Password: </label>
+                        <input id="password" name="password" type="password" placeholder="password" onChange={this.onInputChange}/>
                     </p>
-                    <button onClick={this.submitLoginInfo}>Login</button>
+                    <button type="submit">Login</button>
                 </form>
             </div>
         )

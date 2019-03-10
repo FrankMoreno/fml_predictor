@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import MovieResultsTable from './MovieResultsTable';
+import '../css/MovieTable.css'
 
 class MovieTable extends Component {
     constructor(props) {
@@ -75,14 +76,12 @@ class MovieTable extends Component {
     }
 
     onEstimateChange(event) {
-        // This creates a reference copy, do NOT want this
         let newMovies = JSON.parse(JSON.stringify(this.state.movies));
         newMovies[event.target.name].estimate = event.target.value;
         this.setState({ movies: newMovies })
     }
 
     getNewRatio(event) {
-        // This creates a reference copy, do NOT want this
         let newMovies = JSON.parse(JSON.stringify(this.state.movies));
         newMovies[event.target.name].ratio = (event.target.value)/(newMovies[event.target.name].bux);
         if(newMovies[event.target.name].ratio > this.state.bestPerformer.amount) {
@@ -133,7 +132,7 @@ class MovieTable extends Component {
                     <td>
                         <img className='moviePosterImage' src={this.state.movies[movieName].posterLink} alt='Movie Poster' />
                     </td>
-                    <td>{movieName}</td>
+                    <td className="movieTitle">{movieName}</td>
                     <td>{this.state.movies[movieName].bux}</td>
                     <td>
                         <input type="text"
@@ -155,7 +154,7 @@ class MovieTable extends Component {
         }
         else {
             return (
-                <div className="MovieTable">
+                <div id="movieTableContainer">
                     <h1> FML Calculator </h1>
                     <table>
                         <thead>
@@ -170,12 +169,14 @@ class MovieTable extends Component {
                             {this.makeListItems()}
                         </tbody>
                     </table>
-                    <button onClick={this.solveForScreens}>Submit</button>
-                    <button onClick={this.getEstimates}>Get Estimates</button>
-                    <div id="estimatesCheckbox">
-                        <input id="includeBonuses" type="checkbox" onClick={this.toggleBonuses}/>
-                        Include bonuses?
-                    </div>
+                    <section id="navigationButtonsContainer">
+                        <button onClick={this.solveForScreens}>Submit</button>
+                        <button onClick={this.getEstimates}>Get Estimates</button>
+                        <div id="estimatesCheckbox">
+                            <input id="includeBonuses" type="checkbox" onClick={this.toggleBonuses}/>
+                            Include bonuses?
+                        </div>
+                    </section>
                     <MovieResultsTable results={this.state.results} />
                 </div>
             );

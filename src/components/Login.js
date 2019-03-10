@@ -53,11 +53,11 @@ class Login extends Component {
                 <h1>Frank's Movie League</h1>
                 <form id="loginForm" onSubmit={this.submitLoginInfo}>
                     <p>
-                        <label for="email">Login: </label> 
+                        <label htmlFor="email">Login: </label> 
                         <input id="email" name="email" type="text" placeholder="example@test.com" onChange={this.onInputChange}/>
                     </p>
                     <p>
-                        <label for="password">Password: </label>
+                        <label htmlFor="password">Password: </label>
                         <input id="password" name="password" type="password" placeholder="password" onChange={this.onInputChange}/>
                     </p>
                     <button type="submit">Login</button>

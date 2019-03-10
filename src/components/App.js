@@ -3,6 +3,19 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Login from './Login'
 import MovieTable from './MovieTable'
 
+// TODO Slide this into its own component
+function EverythingElse(props) {
+  return (
+    <div>
+    <h1>You did it!</h1>
+    <Switch>
+      <Redirect from='/app' to='/app/movies'/>
+      <Route path='/app/movies' component={MovieTable}/>
+    </Switch>
+    </div>
+  );
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,18 +42,18 @@ class App extends Component {
         <Route exact path='/' 
           render={() => (
             this.state.isLoggedIn ? 
-            <Redirect to="/movies"/> : 
+            <Redirect to="/app"/> : 
             <Login onLogin={this.onLogin}/>
           )}
         />
-        <Route exact path='/movies' 
-          render={() => (
+        <Route path='/app' 
+          render={(routeProps) => (
             this.state.isLoggedIn ? 
-            <MovieTable isLoggedIn={this.isLoggedIn}/> : 
+            <EverythingElse isLoggedIn={this.isLoggedIn} match={routeProps}/> : 
             <Redirect to='/'/>
           )}
         />
-      </Switch>
+        </Switch>
     );
   }
 }

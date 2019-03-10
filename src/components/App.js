@@ -26,11 +26,17 @@ class App extends Component {
       <Switch>
         <Route exact path='/' 
           render={() => (
-            this.state.isLoggedIn ? <Redirect to="/movies"/> : <Login onLogin={this.onLogin}/>
+            this.state.isLoggedIn ? 
+            <Redirect to="/movies"/> : 
+            <Login onLogin={this.onLogin}/>
           )}
         />
         <Route exact path='/movies' 
-              render={() => (<MovieTable isLoggedIn={this.isLoggedIn}/>)}
+          render={() => (
+            this.state.isLoggedIn ? 
+            <MovieTable isLoggedIn={this.isLoggedIn}/> : 
+            <Login onLogin={this.onLogin}/>
+          )}
         />
       </Switch>
     );

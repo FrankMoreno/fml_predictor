@@ -75,14 +75,12 @@ class MovieTable extends Component {
     }
 
     onEstimateChange(event) {
-        // This creates a reference copy, do NOT want this
         let newMovies = JSON.parse(JSON.stringify(this.state.movies));
         newMovies[event.target.name].estimate = event.target.value;
         this.setState({ movies: newMovies })
     }
 
     getNewRatio(event) {
-        // This creates a reference copy, do NOT want this
         let newMovies = JSON.parse(JSON.stringify(this.state.movies));
         newMovies[event.target.name].ratio = (event.target.value)/(newMovies[event.target.name].bux);
         if(newMovies[event.target.name].ratio > this.state.bestPerformer.amount) {

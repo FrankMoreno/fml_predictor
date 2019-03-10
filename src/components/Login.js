@@ -48,6 +48,7 @@ class Login extends Component {
     }
 
     render() {
+        // TODO Add logic to show authentification failed
         return (
             <div id="loginFormContainer">
                 <h1>Frank's Movie League</h1>

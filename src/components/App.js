@@ -3,17 +3,16 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Login from './Login'
 import MovieTable from './MovieTable'
 
-// TODO Slide this into its own component
+// TODO Should probably slide a lot of this routing logic into different component
+
 function EverythingElse(props) {
   return (
-    <div>
-      <Switch>
-        <Route exact path = '/app'
-          render={() => <Redirect to='/app/movies'/>}
-        />
-        <Route path='/app/movies' component={MovieTable}/>
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path = '/app'
+        render={() => <Redirect to='/app/movies'/>}
+      />
+      <Route path='/app/movies' component={MovieTable}/>
+    </Switch>
   );
 }
 
@@ -33,12 +32,11 @@ class App extends Component {
       isLoggedIn : true,
       authToken : newAuthToken
     });
+    
   }
 
   render() {
     return (
-      // TODO Probably a better way to do this other than
-      // checking for every route
       <Switch>
         <Route exact path='/' 
           render={() => (

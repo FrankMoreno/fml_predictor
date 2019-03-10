@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import '../App.css';
-import { Switch, Route } from 'react-router-dom'
+import React, { Component } from 'react'; 
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Login from './Login'
 import MovieTable from './MovieTable'
 
@@ -26,7 +25,9 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path='/' 
-              render={() => (<Login onLogin={this.onLogin}/>)}
+          render={() => (
+            this.state.isLoggedIn ? <Redirect to="/movies"/> : <Login onLogin={this.onLogin}/>
+          )}
         />
         <Route exact path='/movies' 
               render={() => (<MovieTable isLoggedIn={this.isLoggedIn}/>)}

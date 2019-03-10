@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router'
+import '../css/Login.css'
 
 class Login extends Component {
     constructor(props) {
@@ -49,16 +49,16 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div id="loginFormContainer">
                 <h1>Frank's Movie League</h1>
                 <form id="loginForm" onSubmit={this.submitLoginInfo}>
                     <p>
-                        <label>Login:</label> 
-                        <input name="email" type="text" placeholder="example@test.com" onChange={this.onInputChange}/>
+                        <label for="email">Login: </label> 
+                        <input id="email" name="email" type="text" placeholder="example@test.com" onChange={this.onInputChange}/>
                     </p>
                     <p>
-                        <label>Password:</label>
-                        <input name="password" type="password" placeholder="password" onChange={this.onInputChange}/>
+                        <label for="password">Password: </label>
+                        <input id="password" name="password" type="password" placeholder="password" onChange={this.onInputChange}/>
                     </p>
                     <button type="submit">Login</button>
                 </form>

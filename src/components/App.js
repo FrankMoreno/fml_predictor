@@ -23,6 +23,8 @@ class App extends Component {
 
   render() {
     return (
+      // TODO Probably a better way to do this other than
+      // checking for every route
       <Switch>
         <Route exact path='/' 
           render={() => (
@@ -35,7 +37,7 @@ class App extends Component {
           render={() => (
             this.state.isLoggedIn ? 
             <MovieTable isLoggedIn={this.isLoggedIn}/> : 
-            <Login onLogin={this.onLogin}/>
+            <Redirect to='/'/>
           )}
         />
       </Switch>
